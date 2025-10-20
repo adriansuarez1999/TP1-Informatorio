@@ -12,7 +12,6 @@ public abstract class Persona {
         return nombre;
     }
 
-    // Método abstracto: obliga a las subclases a indicar su tipo (polimorfismo)
     public abstract String getTipo();
 }
 
