@@ -27,7 +27,7 @@ public abstract class Experimento {
         return resultado;
     }
 
-    public boolean isExito () {
+    public boolean isExitoso () {
         return this.resultado == Resultado.EXITO;
     }
 }
