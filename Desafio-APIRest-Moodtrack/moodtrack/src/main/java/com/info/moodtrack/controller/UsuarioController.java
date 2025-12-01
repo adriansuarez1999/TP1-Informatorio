@@ -13,9 +13,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/v1/usuarios")
-@Slf4j
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
@@ -35,7 +35,7 @@ public class UsuarioController {
     @GetMapping("/{id}")
     public ResponseEntity<UsuarioDto> getUsuarioById(
             @PathVariable(name = "id") UUID id
-            ) {
+    ) {
         Optional<UsuarioDto> usuario = usuarioService.obtenerPorId(id);
 
         if( usuario.isPresent() ){
@@ -48,7 +48,7 @@ public class UsuarioController {
     @PostMapping()
     public ResponseEntity<UsuarioDto> createUsuario(
             @Valid @RequestBody UsuarioCreateDto usuarioCreateDto
-            ){
+    ){
         UsuarioDto usuarioCreado = usuarioService.crearUsuario(usuarioCreateDto);
         return ResponseEntity.ok( usuarioCreado );
     }

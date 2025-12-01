@@ -43,3 +43,7 @@ Thumbs.db
 
 # File CSVs
 *.csv
+
+# database configuration file
+database.properties
+application.properties
