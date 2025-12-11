@@ -2,6 +2,7 @@ package com.info.moodtrack.service.usuario;
 
 import com.info.moodtrack.dto.usuario.UsuarioCreateDto;
 import com.info.moodtrack.dto.usuario.UsuarioDto;
+import com.info.moodtrack.dto.usuario.UsuarioResumenDto;
 import com.info.moodtrack.mapper.perfil.PerfilMapper;
 import com.info.moodtrack.mapper.usuario.UsuarioMapper;
 import com.info.moodtrack.model.PerfilUsuario;
@@ -11,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -98,5 +100,36 @@ public class UsuarioServiceImpl implements UsuarioService {
         }
 
         return false;
+    }
+
+    @Override
+    public UsuarioResumenDto obtenerResumenUsuario(UUID id) {
+        log.info("Construyendo resumen para el usuario {}", id); // mensaje
+
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(()-> new RuntimeException("Usuario no encontrado"));
+
+        String nombre = usuario.getNombre();
+        String email = usuario.getEmail();
+        String colorFavorito = usuario.getPerfil() != null ?
+                usuario.getPerfil().getColorFavorito() : null;
+
+        var entradas = usuario.getEntradasDiarias();
+        int cantidad = (entradas != null) ? entradas.size() : 0;
+
+        LocalDate ultimaFecha = null;
+        if (cantidad > 0) {
+            ultimaFecha = entradas.stream()
+                    .map(e -> e.getFecha())
+                    .max(LocalDate::compareTo)
+                    .orElse(null);
+        }
+        return new UsuarioResumenDto(
+                nombre,
+                email,
+                colorFavorito,
+                cantidad,
+                ultimaFecha
+        );
     }
 }
