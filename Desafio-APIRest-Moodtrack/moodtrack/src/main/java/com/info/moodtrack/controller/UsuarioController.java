@@ -2,6 +2,7 @@ package com.info.moodtrack.controller;
 
 import com.info.moodtrack.dto.usuario.UsuarioCreateDto;
 import com.info.moodtrack.dto.usuario.UsuarioDto;
+import com.info.moodtrack.dto.usuario.UsuarioResumenDto;
 import com.info.moodtrack.service.usuario.UsuarioService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -72,5 +73,16 @@ public class UsuarioController {
         return ResponseEntity.noContent().build();
     }
 
-
+    @GetMapping("/{id}/resumen")
+    public ResponseEntity<UsuarioResumenDto> obtenerResumen (
+            @PathVariable UUID id
+    ) {
+        try {
+            log.info("Solicitando resumen del usuario {}", id);
+            UsuarioResumenDto resumen = usuarioService.obtenerResumenUsuario(id);
+            return ResponseEntity.ok(resumen);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

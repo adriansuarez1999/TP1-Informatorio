@@ -104,7 +104,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public UsuarioResumenDto obtenerResumenUsuario(UUID id) {
-        log.info("Construyendo resumen para el usuario {}", id); // mensaje
+        log.info("Construyendo resumen para el usuario {}", id);
 
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(()-> new RuntimeException("Usuario no encontrado"));
